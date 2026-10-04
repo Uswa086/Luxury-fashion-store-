@@ -1,0 +1,341 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#17130f" />
+  <meta name="description" content="Discover premium unstitched ladies and gents fabrics at Luxury Fashion Store by Uswa Collections." />
+  <title>Luxury Fashion Store | Uswa Collections</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="announcement">
+    LUXURY IN EVERY THREAD <span>✦</span> PREMIUM UNSTITCHED FABRICS
+  </div>
+
+  <header class="header">
+    <a class="brand" href="#home">
+      <span class="brand-symbol">L</span>
+      <span>
+        <strong>LUXURY FASHION</strong>
+        <small>STORE · BY USWA COLLECTIONS</small>
+      </span>
+    </a>
+
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">☰</button>
+
+    <nav id="mainNav">
+      <a href="#home">Home</a>
+      <a href="#collections">Collections</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#about">Our Story</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <button class="cart-button" id="openCart">
+      Bag <span id="cartCount">0</span>
+    </button>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <span class="eyebrow">THE ART OF FINE FABRICS</span>
+        <h1>Elegance begins<br>with <em>the fabric.</em></h1>
+        <p>
+          Discover beautiful unstitched fabrics selected for
+          timeless style, comfort and individuality.
+        </p>
+        <div class="hero-actions">
+          <a href="#collections" class="btn btn-gold">Explore Collection ↗</a>
+          <a href="#about" class="text-link">Discover our story</a>
+        </div>
+        <div class="hero-note">LADIES' & GENTS' COLLECTIONS · PAKISTAN</div>
+      </div>
+      <div class="hero-side-label">CRAFTED FOR YOUR STYLE — 01 / 04</div>
+    </section>
+
+    <section class="trust-strip">
+      <div><span>✧</span> Carefully selected fabrics</div>
+      <div><span>◇</span> Unstitched collections</div>
+      <div><span>↗</span> Convenient WhatsApp orders</div>
+      <div><span>✦</span> Customer-first service</div>
+    </section>
+
+    <section class="section collection-section" id="collections">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">THE COLLECTION</span>
+          <h2>Find your <em>signature fabric.</em></h2>
+          <p>Thoughtfully selected fabrics for your own unique style.</p>
+        </div>
+        <span class="collection-count">UNSTITCHED · EST. WITH CARE</span>
+      </div>
+
+      <div class="category-tabs" id="categoryTabs">
+        <button class="tab active" data-category="All">All Fabrics</button>
+        <button class="tab" data-category="Ladies">Ladies</button>
+        <button class="tab" data-category="Gents">Gents</button>
+      </div>
+
+      <div class="filter-bar">
+        <label class="search-box">
+          <span>⌕</span>
+          <input id="searchInput" type="search" placeholder="Search fabric, color or collection..." />
+        </label>
+
+        <select id="fabricFilter" aria-label="Filter by fabric">
+          <option value="All">All fabric types</option>
+          <option value="Cotton">Cotton</option>
+          <option value="Lawn">Lawn</option>
+          <option value="Khaddar">Khaddar</option>
+          <option value="Wash & Wear">Wash & Wear</option>
+          <option value="Linen">Linen</option>
+          <option value="Embroidered">Embroidered</option>
+          <option value="Silk">Silk</option>
+        </select>
+
+        <select id="sortFilter" aria-label="Sort products">
+          <option value="featured">Featured</option>
+          <option value="low">Price: Low to High</option>
+          <option value="high">Price: High to Low</option>
+          <option value="name">Name A–Z</option>
+        </select>
+      </div>
+
+      <div class="product-grid" id="productGrid"></div>
+      <p class="empty-state" id="emptyState" hidden>
+        No matching fabrics found. Try a different search or filter.
+      </p>
+    </section>
+
+    <section class="ai-banner">
+      <div class="ai-orb">✧</div>
+      <div class="ai-copy">
+        <span class="eyebrow">YOUR PERSONAL FABRIC GUIDE</span>
+        <h2>Not sure what to choose?</h2>
+        <p>Tell our shopping assistant what you need and discover fabrics that suit your preferences.</p>
+      </div>
+      <button class="btn btn-light" id="openAssistant">Ask the assistant ↗</button>
+    </section>
+
+    <section class="section story-section" id="about">
+      <div class="story-image">
+        <img
+          src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1100&q=85"
+          alt="Fashion editorial inspiration"
+          loading="lazy"
+        />
+        <span class="image-caption">STYLE IS PERSONAL. FABRIC IS THE BEGINNING.</span>
+      </div>
+      <div class="story-copy">
+        <span class="eyebrow">THE USWA COLLECTIONS STORY</span>
+        <h2>Made for your vision.<br><em>Chosen by you.</em></h2>
+        <p>
+          Luxury Fashion Store celebrates the beauty of unstitched fabrics
+          and the freedom to create your own look. Explore different textures,
+          colors and fabric varieties for ladies and gents.
+        </p>
+        <p>
+          We aim to make fabric shopping simple, personal and convenient,
+          with direct customer support for product questions and orders.
+        </p>
+        <a href="#collections" class="text-link dark-link">Explore the fabrics ↗</a>
+      </div>
+    </section>
+
+    <section class="section reviews-section" id="reviews">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">CUSTOMER VOICES</span>
+          <h2>Every experience <em>matters.</em></h2>
+          <p>Share your experience to help other customers shop confidently.</p>
+        </div>
+        <button class="btn btn-outline" id="writeReview">Write a review +</button>
+      </div>
+
+      <div class="review-notice">
+        Please note: the initial reviews are demonstration examples, not verified customer testimonials.
+        Replace them with genuine customer feedback before publishing.
+      </div>
+
+      <div class="review-summary">
+        <div class="rating-number">
+          <strong id="averageRating">—</strong>
+          <div class="stars">★★★★★</div>
+          <small id="reviewCount">No customer reviews yet</small>
+        </div>
+        <div class="rating-description">
+          <strong>Real feedback builds real trust.</strong>
+          <p>Only publish authentic customer experiences. Reviews submitted on this demo are stored in this browser only.</p>
+        </div>
+      </div>
+
+      <div class="review-grid" id="reviewGrid"></div>
+
+      <form class="review-form" id="reviewForm" hidden>
+        <h3>Share your experience</h3>
+        <p class="form-hint">Please submit an honest review of your shopping experience.</p>
+
+        <label>Your name
+          <input name="reviewName" maxlength="60" required placeholder="Enter your name">
+        </label>
+
+        <label>Your rating
+          <select name="reviewRating" required>
+            <option value="5">★★★★★ — Excellent</option>
+            <option value="4">★★★★☆ — Very good</option>
+            <option value="3">★★★☆☆ — Good</option>
+            <option value="2">★★☆☆☆ — Fair</option>
+            <option value="1">★☆☆☆☆ — Poor</option>
+          </select>
+        </label>
+
+        <label>Your review
+          <textarea name="reviewText" required minlength="10" maxlength="600" rows="4" placeholder="Tell us about your experience..."></textarea>
+        </label>
+
+        <button class="btn btn-gold" type="submit">Submit review</button>
+        <p class="form-hint">Demo only: reviews are not uploaded to a shared server.</p>
+      </form>
+    </section>
+
+    <section class="newsletter">
+      <span class="eyebrow">A LITTLE MORE LUXURY</span>
+      <h2>Discover your next favorite fabric.</h2>
+      <p>Contact us directly for current stock, fabric details and ordering.</p>
+      <a class="btn btn-gold" href="https://wa.me/923157540218" target="_blank" rel="noopener">Connect on WhatsApp ↗</a>
+    </section>
+  </main>
+
+  <footer class="footer" id="contact">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a class="brand footer-logo" href="#home">
+          <span class="brand-symbol">L</span>
+          <span><strong>LUXURY FASHION</strong><small>STORE · BY USWA COLLECTIONS</small></span>
+        </a>
+        <p>A refined destination for unstitched ladies' and gents' fabrics.</p>
+      </div>
+
+      <div>
+        <h4>Explore</h4>
+        <a href="#collections">All fabrics</a>
+        <a href="#collections" data-footer-category="Ladies">Ladies' fabrics</a>
+        <a href="#collections" data-footer-category="Gents">Gents' fabrics</a>
+        <a href="#reviews">Customer reviews</a>
+      </div>
+
+      <div>
+        <h4>Customer care</h4>
+        <a href="https://wa.me/923157540218" target="_blank" rel="noopener">WhatsApp us</a>
+        <a href="mailto:uswanazish311@gmail.com">Email us</a>
+        <span>Location: Khanewal, Kacha Khu</span>
+        <span>Pakistan</span>
+      </div>
+
+      <div>
+        <h4>Payment options</h4>
+        <span>Cash on Delivery</span>
+        <span>Easypaisa</span>
+        <span>JazzCash</span>
+        <span>Bank Transfer</span>
+        <small class="payment-note">Confirm availability and instructions before payment.</small>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> Luxury Fashion Store. By Uswa Collections.</span>
+      <span>Elegance in every thread.</span>
+    </div>
+  </footer>
+
+  <!-- Shopping cart drawer -->
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping cart" aria-hidden="true">
+    <div class="drawer-header">
+      <div><span class="eyebrow">YOUR SELECTION</span><h2>Your shopping bag</h2></div>
+      <button class="icon-button" id="closeCart" aria-label="Close cart">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-footer">
+      <div class="total-line"><span>Subtotal</span><strong id="cartSubtotal">Rs. 0</strong></div>
+      <p>Delivery charges, if applicable, will be confirmed before the order is finalized.</p>
+      <button class="btn btn-gold full-width" id="checkoutButton">Continue to checkout</button>
+      <button class="btn btn-outline full-width" id="continueShopping">Continue shopping</button>
+    </div>
+  </aside>
+
+  <!-- Checkout modal -->
+  <div class="modal-backdrop" id="checkoutModal" hidden>
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle">
+      <div class="modal-heading">
+        <div><span class="eyebrow">ALMOST YOURS</span><h2 id="checkoutTitle">Order details</h2></div>
+        <button class="icon-button" id="closeCheckout" aria-label="Close checkout">✕</button>
+      </div>
+
+      <form id="checkoutForm">
+        <label>Full name
+          <input name="customerName" required maxlength="100" autocomplete="name" placeholder="Your full name">
+        </label>
+        <label>Phone number
+          <input name="customerPhone" type="tel" required maxlength="20" autocomplete="tel" placeholder="03XX XXXXXXX">
+        </label>
+        <label>City
+          <input name="customerCity" required maxlength="80" placeholder="Your city">
+        </label>
+        <label>Complete delivery address
+          <textarea name="customerAddress" required maxlength="500" rows="3" autocomplete="street-address" placeholder="House, street, area and delivery details"></textarea>
+        </label>
+        <label>Payment preference
+          <select name="paymentMethod" required>
+            <option value="Cash on Delivery">Cash on Delivery</option>
+            <option value="Easypaisa">Easypaisa — confirm transfer instructions</option>
+            <option value="JazzCash">JazzCash — confirm transfer instructions</option>
+            <option value="Bank Transfer">Bank Transfer — confirm bank details</option>
+          </select>
+        </label>
+        <label>Additional notes (optional)
+          <textarea name="orderNotes" maxlength="300" rows="2" placeholder="Color preference or other request"></textarea>
+        </label>
+        <div class="checkout-total"><span>Product subtotal</span><strong id="checkoutSubtotal">Rs. 0</strong></div>
+        <p class="form-hint">
+          This form prepares your order in WhatsApp. Your order is not confirmed until the store responds.
+          Do not send passwords, PINs or banking credentials.
+        </p>
+        <button class="btn btn-gold full-width" type="submit">Continue with WhatsApp ↗</button>
+      </form>
+    </section>
+  </div>
+
+  <!-- Shopping assistant -->
+  <div class="assistant-panel" id="assistantPanel" hidden>
+    <div class="assistant-header">
+      <div><span class="eyebrow">STYLE CONCIERGE</span><strong>Fabric Shopping Assistant</strong></div>
+      <button class="icon-button" id="closeAssistant" aria-label="Close assistant">✕</button>
+    </div>
+    <div class="assistant-messages" id="assistantMessages">
+      <div class="chat-message bot">
+        Welcome! Tell me whether you're shopping for ladies or gents, which fabric you prefer, or your budget. I can recommend items from this demo catalog.
+      </div>
+    </div>
+    <form id="assistantForm" class="assistant-input">
+      <input id="assistantInput" maxlength="300" required placeholder="e.g. cotton under Rs. 3000">
+      <button class="btn btn-gold" type="submit" aria-label="Send message">↑</button>
+    </form>
+    <p class="form-hint assistant-hint">Demo assistant: recommendations use the sample catalog, not a live AI service.</p>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+  </html>
+  
