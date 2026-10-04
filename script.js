@@ -3,469 +3,253 @@
 
 /* =========================================
    LUXURY FASHION STORE
-   By Uswa Collections
+   Replace sample products with client stock.
    ========================================= */
 
-const WHATSAPP_NUMBER = "923157540218";
-const STORE_EMAIL = "uswanazish311@gmail.com";
+const STORE = {
+  whatsapp: "923157540218",
+  email: "uswanazish311@gmail.com"
+};
 
 const money = amount =>
   "Rs. " + Number(amount).toLocaleString("en-PK");
 
 const $ = selector => document.querySelector(selector);
 
-const escapeHTML = value =>
-  String(value).replace(/[&<>"']/g, character => ({
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, character => ({
     "&": "&amp;",
     "<": "&lt;",
     ">": "&gt;",
     '"': "&quot;",
     "'": "&#39;"
   })[character]);
+}
 
-function readStorage(key, fallback) {
+function loadData(key, fallback) {
   try {
-    const saved = localStorage.getItem(key);
-    return saved ? JSON.parse(saved) : fallback;
+    const value = localStorage.getItem(key);
+    return value ? JSON.parse(value) : fallback;
   } catch {
     return fallback;
   }
 }
 
-function saveStorage(key, value) {
+function saveData(key, value) {
   try {
     localStorage.setItem(key, JSON.stringify(value));
     return true;
   } catch {
-    showToast("Browser storage is unavailable.");
+    showToast("Could not save data in this browser.");
     return false;
   }
 }
 
-/* Replace these sample products and prices
-   with your actual inventory before publishing. */
+/* All listed prices are above Rs. 4,000.
+   These are demonstration products and prices.
+   Replace them with the client's actual inventory. */
 
 const products = [
   {
     id: 1,
-    name: "Royal Cotton Classic",
-    category: "Ladies",
-    fabric: "Cotton",
-    color: "Ivory",
-    price: 1850,
-    sku: "UF-001",
-    stock: 12,
-    description: "Classic unstitched cotton fabric for everyday elegance.",
-    season: "Summer",
-    length: "As specified by seller",
-    image: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=700&q=85",
-    badge: "Everyday luxury"
+    name: "Royal Lawn Signature",
+    category: "ladies",
+    fabric: "Lawn",
+    price: 4500,
+    color: "Floral",
+    badge: "Signature Edit",
+    description: "Premium unstitched lawn fabric for elegant summer tailoring.",
+    image: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=750&q=85"
   },
   {
     id: 2,
-    name: "Summer Lawn Edit",
-    category: "Ladies",
-    fabric: "Lawn",
-    color: "Multicolor",
-    price: 2450,
-    sku: "UF-002",
-    stock: 10,
-    description: "A summer-inspired unstitched lawn fabric selection.",
-    season: "Summer",
-    length: "As specified by seller",
-    image: "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=700&q=85",
-    badge: "Summer edit"
+    name: "Embroidered Heritage",
+    category: "ladies",
+    fabric: "Embroidered",
+    price: 6200,
+    color: "Ivory",
+    badge: "Occasion Wear",
+    description: "An occasion-inspired unstitched fabric selection.",
+    image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=750&q=85"
   },
   {
     id: 3,
-    name: "Embroidered Elegance",
-    category: "Ladies",
-    fabric: "Embroidered",
-    color: "Neutral",
-    price: 3950,
-    sku: "UF-003",
-    stock: 6,
-    description: "An occasion-inspired textile selection with decorative detail.",
-    season: "All season",
-    length: "As specified by seller",
-    image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=700&q=85",
-    badge: "Occasion wear"
+    name: "Premium Cotton Luxe",
+    category: "ladies",
+    fabric: "Cotton",
+    price: 4250,
+    color: "Soft Neutral",
+    badge: "Everyday Luxury",
+    description: "A refined cotton fabric option for personal tailoring.",
+    image: "https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=750&q=85"
   },
   {
     id: 4,
-    name: "Pure Linen Touch",
-    category: "Ladies",
-    fabric: "Linen",
-    color: "Earth tones",
-    price: 2850,
-    sku: "UF-004",
-    stock: 8,
-    description: "An understated linen-inspired unstitched fabric option.",
-    season: "Spring / Summer",
-    length: "As specified by seller",
-    image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=700&q=85",
-    badge: "Modern classic"
+    name: "Silk Festive Edition",
+    category: "ladies",
+    fabric: "Silk",
+    price: 7800,
+    color: "Burgundy",
+    badge: "Festive Edit",
+    description: "An elegant silk-style fabric selection for special occasions.",
+    image: "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=750&q=85"
   },
   {
     id: 5,
     name: "Gentleman's Wash & Wear",
-    category: "Gents",
+    category: "gents",
     fabric: "Wash & Wear",
+    price: 4800,
     color: "Charcoal",
-    price: 2250,
-    sku: "UF-005",
-    stock: 15,
-    description: "A smart unstitched fabric option for tailored menswear.",
-    season: "All season",
-    length: "As specified by seller",
-    image: "https://images.unsplash.com/photo-1617137968427-85924c800a22?auto=format&fit=crop&w=700&q=85",
-    badge: "Gents classic"
+    badge: "Gents Classic",
+    description: "Premium unstitched wash-and-wear fabric for tailoring.",
+    image: "https://images.unsplash.com/photo-1617137968427-85924c800a22?auto=format&fit=crop&w=750&q=85"
   },
   {
     id: 6,
-    name: "Premium Cotton Blend",
-    category: "Gents",
+    name: "Royal Cotton Suiting",
+    category: "gents",
     fabric: "Cotton",
+    price: 5200,
     color: "Beige",
-    price: 1950,
-    sku: "UF-006",
-    stock: 11,
-    description: "A versatile unstitched fabric choice for everyday tailoring.",
-    season: "All season",
-    length: "As specified by seller",
-    image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=700&q=85",
-    badge: "Daily essentials"
+    badge: "Premium Pick",
+    description: "A classic unstitched cotton fabric selection for gentlemen.",
+    image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=750&q=85"
   },
   {
     id: 7,
-    name: "Winter Khaddar Select",
-    category: "Gents",
+    name: "Winter Khaddar Prestige",
+    category: "gents",
     fabric: "Khaddar",
-    color: "Olive",
-    price: 2650,
-    sku: "UF-007",
-    stock: 9,
-    description: "A winter-focused unstitched khaddar fabric selection.",
-    season: "Winter",
-    length: "As specified by seller",
-    image: "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=700&q=85",
-    badge: "Winter edit"
+    price: 5500,
+    color: "Earth Tones",
+    badge: "Winter Collection",
+    description: "An unstitched khaddar fabric option for cooler weather.",
+    image: "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=750&q=85"
   },
   {
     id: 8,
-    name: "Silk-Inspired Occasion Fabric",
-    category: "Ladies",
-    fabric: "Silk",
-    color: "Burgundy",
-    price: 4200,
-    sku: "UF-008",
-    stock: 5,
-    description: "An occasion-inspired silk-style fabric selection.",
-    season: "Festive",
-    length: "As specified by seller",
-    image: "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=700&q=85",
-    badge: "Festive edit"
-  },
-  {
-    id: 9,
-    name: "Classic Wash & Wear",
-    category: "Gents",
-    fabric: "Wash & Wear",
-    color: "Navy",
-    price: 2400,
-    sku: "UF-009",
-    stock: 10,
-    description: "A versatile unstitched wash-and-wear fabric option.",
-    season: "All season",
-    length: "As specified by seller",
-    image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=700&q=85",
-    badge: "Timeless"
-  },
-  {
-    id: 10,
-    name: "Soft Cotton Everyday",
-    category: "Ladies",
-    fabric: "Cotton",
-    color: "Soft pink",
-    price: 1750,
-    sku: "UF-010",
-    stock: 14,
-    description: "A simple cotton-inspired option for everyday tailoring.",
-    season: "Summer",
-    length: "As specified by seller",
-    image: "https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=700&q=85",
-    badge: "Easy elegance"
-  },
-  {
-    id: 11,
-    name: "Textured Winter Classic",
-    category: "Gents",
-    fabric: "Khaddar",
-    color: "Brown",
-    price: 2900,
-    sku: "UF-011",
-    stock: 7,
-    description: "A textured winter-inspired fabric for custom tailoring.",
-    season: "Winter",
-    length: "As specified by seller",
-    image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=700&q=85",
-    badge: "Winter classic"
-  },
-  {
-    id: 12,
-    name: "Printed Lawn Collection",
-    category: "Ladies",
-    fabric: "Lawn",
-    color: "Floral",
-    price: 2550,
-    sku: "UF-012",
-    stock: 8,
-    description: "A floral-inspired unstitched lawn collection.",
-    season: "Summer",
-    length: "As specified by seller",
-    image: "https://images.unsplash.com/photo-1551232864-3f0890e580d9?auto=format&fit=crop&w=700&q=85",
-    badge: "Printed edit"
+    name: "Linen Tailoring Edit",
+    category: "gents",
+    fabric: "Linen",
+    price: 6500,
+    color: "Sand",
+    badge: "Modern Classic",
+    description: "A linen fabric selection for a refined custom-tailored look.",
+    image: "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=750&q=85"
   }
 ];
 
-/* State */
+let cart = loadData("luxury_store_cart", []);
+let reviews = loadData("luxury_store_reviews", []);
 
-let activeCategory = "All";
-let cart = readStorage("lfs_cart", []);
-let wishlist = readStorage("lfs_wishlist", []);
-let customerReviews = readStorage("lfs_customer_reviews", []);
-
-/* Demo reviews are intentionally labelled.
-   Replace these examples with genuine feedback.
-   They are excluded from the customer rating. */
-
-const demoReviews = [
-  {
-    name: "Sample customer",
-    rating: 5,
-    title: "A sample review",
-    text: "Replace this demonstration text with genuine feedback from a customer about product quality and the ordering experience.",
-    demo: true
-  },
-  {
-    name: "Sample customer",
-    rating: 4,
-    title: "Example feedback",
-    text: "This is placeholder content for preview purposes. Add authentic customer reviews after receiving permission to publish them.",
-    demo: true
-  },
-  {
-    name: "Sample customer",
-    rating: 5,
-    title: "Demo testimonial",
-    text: "Use this card to preview the review design. It does not represent a verified purchase or an actual customer statement.",
-    demo: true
-  }
-];
-
-/* Notifications */
-
-let toastTimer;
+let toastTimeout;
 
 function showToast(message) {
   const toast = $("#toast");
   toast.textContent = message;
   toast.classList.add("show");
 
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => {
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => {
     toast.classList.remove("show");
   }, 2800);
 }
 
-/* Products and filters */
+/* PRODUCT SEARCH AND FILTERING */
 
-function getFilteredProducts() {
-  const search = $("#searchInput").value.trim().toLowerCase();
+function filteredProducts(category) {
+  const query = $("#fabricSearch").value.trim().toLowerCase();
   const fabric = $("#fabricFilter").value;
-  const sort = $("#sortFilter").value;
+  const sort = $("#priceSort").value;
 
   let result = products.filter(product => {
-    const categoryMatch =
-      activeCategory === "All" ||
-      product.category === activeCategory;
+    const categoryMatch = product.category === category;
 
     const fabricMatch =
-      fabric === "All" ||
-      product.fabric === fabric;
+      fabric === "all" || product.fabric === fabric;
 
-    const searchable = [
+    const searchText = [
       product.name,
-      product.category,
       product.fabric,
       product.color,
       product.description,
-      product.season
+      product.badge
     ].join(" ").toLowerCase();
 
-    return categoryMatch && fabricMatch && searchable.includes(search);
+    return categoryMatch && fabricMatch && searchText.includes(query);
   });
 
   if (sort === "low") {
     result.sort((a, b) => a.price - b.price);
   } else if (sort === "high") {
     result.sort((a, b) => b.price - a.price);
-  } else if (sort === "name") {
-    result.sort((a, b) => a.name.localeCompare(b.name));
   }
 
   return result;
 }
 
-function renderProducts() {
-  const grid = $("#productGrid");
-  const result = getFilteredProducts();
+function productCard(product) {
+  return `
+    <article class="product-card">
+      <div class="product-image-wrap">
+        <img
+          class="product-image"
+          src="${escapeHTML(product.image)}"
+          alt="${escapeHTML(product.name)} — ${escapeHTML(product.fabric)} collection"
+          loading="lazy"
+        >
+        <span class="product-badge">${escapeHTML(product.badge)}</span>
+      </div>
 
-  $("#emptyState").hidden = result.length !== 0;
+      <div class="product-info">
+        <div class="product-category">
+          ${product.category === "ladies" ? "Ladies" : "Gents"}
+          · ${escapeHTML(product.fabric)}
+        </div>
 
-  grid.innerHTML = result.map(product => {
-    const saved = wishlist.includes(product.id);
+        <h3>${escapeHTML(product.name)}</h3>
+        <p class="product-description">${escapeHTML(product.description)}</p>
+        <div class="product-price">${money(product.price)}</div>
 
-    return `
-      <article class="product-card">
-        <div class="product-image-wrap">
-          <img
-            class="product-image"
-            src="${escapeHTML(product.image)}"
-            alt="${escapeHTML(product.name)} — ${escapeHTML(product.fabric)} fabric"
-            loading="lazy"
-          />
-          <span class="product-badge">${escapeHTML(product.badge)}</span>
-          <button
-            class="wishlist-btn ${saved ? "saved" : ""}"
-            data-wishlist="${product.id}"
-            aria-label="${saved ? "Remove from" : "Add to"} wishlist"
-            aria-pressed="${saved}"
-          >${saved ? "♥" : "♡"}</button>
-          <button class="quick-add" data-add="${product.id}">
-            + ADD TO BAG
+        <div class="product-actions">
+          <button class="button button-outline-dark"
+            data-buy="${product.id}">
+            Buy Now
+          </button>
+
+          <button class="button button-gold"
+            data-add="${product.id}">
+            Add to Cart
           </button>
         </div>
-
-        <div class="product-info">
-          <div class="product-category">
-            ${escapeHTML(product.category)} · ${escapeHTML(product.fabric)}
-          </div>
-          <h3>${escapeHTML(product.name)}</h3>
-          <p class="product-description">${escapeHTML(product.description)}</p>
-          <div class="product-meta">
-            ${escapeHTML(product.color)} · ${escapeHTML(product.season)}
-          </div>
-          <div class="product-price">${money(product.price)}</div>
-
-          <div class="product-actions">
-            <button class="btn btn-outline" data-details="${product.id}">
-              Details
-            </button>
-            <button class="btn btn-gold" data-add="${product.id}">
-              Add to bag
-            </button>
-          </div>
-        </div>
-      </article>
-    `;
-  }).join("");
-
-  // Replace inaccessible product images with a visible fallback.
-  grid.querySelectorAll(".product-image").forEach(img => {
-    img.addEventListener("error", () => {
-      img.alt = "Product image unavailable — update this product's image URL.";
-      img.removeAttribute("src");
-      img.style.display = "none";
-
-      const wrapper = img.closest(".product-image-wrap");
-      wrapper.style.background =
-        "linear-gradient(135deg, #e6d8c4, #f7f0e6)";
-    }, { once: true });
-  });
+      </div>
+    </article>
+  `;
 }
 
-/* Category buttons */
+function renderProducts() {
+  const ladies = filteredProducts("ladies");
+  const gents = filteredProducts("gents");
 
-$("#categoryTabs").addEventListener("click", event => {
-  const button = event.target.closest("[data-category]");
-  if (!button) return;
+  $("#ladiesGrid").innerHTML = ladies.map(productCard).join("");
+  $("#gentsGrid").innerHTML = gents.map(productCard).join("");
 
-  activeCategory = button.dataset.category;
+  $("#ladiesEmpty").hidden = ladies.length > 0;
+  $("#gentsEmpty").hidden = gents.length > 0;
 
-  document.querySelectorAll(".tab").forEach(tab => {
-    tab.classList.toggle("active", tab === button);
-  });
+  $("#searchSummary").textContent =
+    `${ladies.length} ladies product(s) and ${gents.length} gents product(s) found.`;
+}
 
-  renderProducts();
-});
-
-$("#searchInput").addEventListener("input", renderProducts);
+$("#fabricSearch").addEventListener("input", renderProducts);
 $("#fabricFilter").addEventListener("change", renderProducts);
-$("#sortFilter").addEventListener("change", renderProducts);
+$("#priceSort").addEventListener("change", renderProducts);
 
-document.querySelectorAll("[data-footer-category]").forEach(link => {
-  link.addEventListener("click", () => {
-    activeCategory = link.dataset.footerCategory;
-
-    document.querySelectorAll(".tab").forEach(tab => {
-      tab.classList.toggle(
-        "active",
-        tab.dataset.category === activeCategory
-      );
-    });
-
-    renderProducts();
-  });
-});
-
-/* Product details */
-
-function showProductDetails(id) {
-  const product = products.find(item => item.id === Number(id));
-  if (!product) return;
-
-  const message = [
-    product.name,
-    "",
-    `Category: ${product.category}`,
-    `Fabric: ${product.fabric}`,
-    `Color: ${product.color}`,
-    `Season: ${product.season}`,
-    `Price: ${money(product.price)}`,
-    `SKU: ${product.sku}`,
-    `Available demo stock: ${product.stock}`,
-    `Length: ${product.length}`,
-    "",
-    product.description,
-    "",
-    "This is unstitched fabric. Confirm the actual composition, width, length and availability with the store before ordering."
-  ].join("\n");
-
-  window.alert(message);
-}
-
-/* Wishlist */
-
-function toggleWishlist(id) {
-  id = Number(id);
-
-  if (wishlist.includes(id)) {
-    wishlist = wishlist.filter(item => item !== id);
-    showToast("Removed from wishlist.");
-  } else {
-    wishlist.push(id);
-    showToast("Added to wishlist.");
-  }
-
-  saveStorage("lfs_wishlist", wishlist);
-  renderProducts();
-}
-
-/* Shopping cart */
+/* CART MANAGEMENT */
 
 function saveCart() {
-  saveStorage("lfs_cart", cart);
+  saveData("luxury_store_cart", cart);
   renderCart();
 }
 
@@ -476,32 +260,23 @@ function addToCart(id) {
   const existing = cart.find(item => item.id === product.id);
 
   if (existing) {
-    if (existing.quantity >= product.stock) {
-      showToast("Maximum sample stock reached.");
-      return;
-    }
     existing.quantity += 1;
   } else {
     cart.push({ id: product.id, quantity: 1 });
   }
 
   saveCart();
-  showToast(`${product.name} added to your bag.`);
+  showToast(`${product.name} added to your cart.`);
 }
 
 function changeQuantity(id, amount) {
   const item = cart.find(entry => entry.id === Number(id));
-  const product = products.find(entry => entry.id === Number(id));
-
-  if (!item || !product) return;
+  if (!item) return;
 
   item.quantity += amount;
 
   if (item.quantity <= 0) {
     cart = cart.filter(entry => entry.id !== Number(id));
-  } else if (item.quantity > product.stock) {
-    item.quantity = product.stock;
-    showToast("Maximum sample stock reached.");
   }
 
   saveCart();
@@ -510,107 +285,97 @@ function changeQuantity(id, amount) {
 function removeFromCart(id) {
   cart = cart.filter(item => item.id !== Number(id));
   saveCart();
-  showToast("Item removed from your bag.");
+  showToast("Product removed from your cart.");
 }
 
-function getCartDetails() {
-  // Only products that exist in the current catalog are included.
-  const validCart = [];
-
-  cart.forEach(item => {
+function getCartLines() {
+  return cart.map(item => {
     const product = products.find(p => p.id === Number(item.id));
-    if (!product) return;
 
-    const quantity = Math.min(
-      Math.max(1, Number(item.quantity) || 1),
-      product.stock
+    if (!product) return null;
+
+    const quantity = Math.max(
+      1,
+      Math.min(99, Math.floor(Number(item.quantity) || 1))
     );
-
-    validCart.push({ id: product.id, quantity });
-  });
-
-  cart = validCart;
-
-  const lines = cart.map(item => {
-    const product = products.find(p => p.id === item.id);
 
     return {
       ...product,
-      quantity: item.quantity,
-      lineTotal: product.price * item.quantity
+      quantity,
+      lineTotal: product.price * quantity
     };
-  });
+  }).filter(Boolean);
+}
 
-  const subtotal = lines.reduce(
+function cartTotal() {
+  return getCartLines().reduce(
     (sum, item) => sum + item.lineTotal, 0
   );
-
-  return { lines, subtotal };
 }
 
 function renderCart() {
-  const { lines, subtotal } = getCartDetails();
+  const lines = getCartLines();
 
-  $("#cartCount").textContent = cart.reduce(
+  $("#cartCount").textContent = lines.reduce(
     (sum, item) => sum + item.quantity, 0
   );
 
-  $("#cartSubtotal").textContent = money(subtotal);
+  $("#cartSubtotal").textContent = money(cartTotal());
+  $("#orderSubtotal").textContent = money(cartTotal());
 
-  if (lines.length === 0) {
+  if (!lines.length) {
     $("#cartItems").innerHTML = `
       <div class="cart-empty">
-        <p>Your shopping bag is waiting.</p>
-        <p>Explore the collection and add your favorite fabrics.</p>
+        <p>Your shopping bag is empty.</p>
+        <p>Explore our ladies and gents collections to begin.</p>
       </div>
     `;
-    $("#checkoutButton").disabled = true;
-    $("#checkoutButton").style.opacity = ".55";
-    saveStorage("lfs_cart", cart);
     return;
   }
-
-  $("#checkoutButton").disabled = false;
-  $("#checkoutButton").style.opacity = "1";
 
   $("#cartItems").innerHTML = lines.map(item => `
     <div class="cart-item">
       <img src="${escapeHTML(item.image)}" alt="${escapeHTML(item.name)}">
+
       <div>
         <h4>${escapeHTML(item.name)}</h4>
-        <p>${escapeHTML(item.fabric)} · ${escapeHTML(item.category)}</p>
+        <p>${escapeHTML(item.fabric)} · ${item.category}</p>
         <strong>${money(item.lineTotal)}</strong>
+
         <div class="quantity-control">
-          <button data-quantity="${item.id}" data-delta="-1" aria-label="Decrease quantity">−</button>
+          <button data-quantity="${item.id}" data-change="-1"
+            aria-label="Decrease quantity">−</button>
           <span>${item.quantity}</span>
-          <button data-quantity="${item.id}" data-delta="1" aria-label="Increase quantity">+</button>
+          <button data-quantity="${item.id}" data-change="1"
+            aria-label="Increase quantity">+</button>
         </div>
       </div>
-      <button class="remove-item" data-remove="${item.id}">Remove</button>
+
+      <button class="remove-item" data-remove="${item.id}">
+        Remove
+      </button>
     </div>
   `).join("");
-
-  saveStorage("lfs_cart", cart);
 }
 
 function openCart() {
   $("#cartDrawer").classList.add("open");
   $("#cartDrawer").setAttribute("aria-hidden", "false");
-  $("#drawerBackdrop").classList.add("visible");
+  $("#cartBackdrop").hidden = false;
   document.body.style.overflow = "hidden";
 }
 
 function closeCart() {
   $("#cartDrawer").classList.remove("open");
   $("#cartDrawer").setAttribute("aria-hidden", "true");
-  $("#drawerBackdrop").classList.remove("visible");
+  $("#cartBackdrop").hidden = true;
   document.body.style.overflow = "";
 }
 
 $("#openCart").addEventListener("click", openCart);
 $("#closeCart").addEventListener("click", closeCart);
+$("#cartBackdrop").addEventListener("click", closeCart);
 $("#continueShopping").addEventListener("click", closeCart);
-$("#drawerBackdrop").addEventListener("click", closeCart);
 
 $("#cartItems").addEventListener("click", event => {
   const quantityButton = event.target.closest("[data-quantity]");
@@ -619,7 +384,7 @@ $("#cartItems").addEventListener("click", event => {
   if (quantityButton) {
     changeQuantity(
       quantityButton.dataset.quantity,
-      Number(quantityButton.dataset.delta)
+      Number(quantityButton.dataset.change)
     );
   }
 
@@ -628,49 +393,178 @@ $("#cartItems").addEventListener("click", event => {
   }
 });
 
-$("#productGrid").addEventListener("click", event => {
-  const addButton = event.target.closest("[data-add]");
-  const wishlistButton = event.target.closest("[data-wishlist]");
-  const detailsButton = event.target.closest("[data-details]");
+function goToOrder(id) {
+  if (id !== undefined) {
+    addToCart(id);
+  }
 
-  if (addButton) addToCart(addButton.dataset.add);
-  if (wishlistButton) toggleWishlist(wishlistButton.dataset.wishlist);
-  if (detailsButton) showProductDetails(detailsButton.dataset.details);
-});
+  closeCart();
 
-/* Checkout and WhatsApp */
+  $("#order").scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+}
 
-function openCheckout() {
-  if (cart.length === 0) {
-    showToast("Your shopping bag is empty.");
+$("#goToOrder").addEventListener("click", () => {
+  if (!cart.length) {
+    showToast("Please add a product to your cart first.");
     return;
   }
 
-  const { subtotal } = getCartDetails();
-  $("#checkoutSubtotal").textContent = money(subtotal);
-  $("#checkoutModal").hidden = false;
-  document.body.style.overflow = "hidden";
-}
-
-function closeCheckout() {
-  $("#checkoutModal").hidden = true;
-  document.body.style.overflow = "";
-}
-
-$("#checkoutButton").addEventListener("click", () => {
-  if (cart.length === 0) return;
-
-  closeCart();
-  openCheckout();
+  goToOrder();
 });
 
-$("#closeCheckout").addEventListener("click", closeCheckout);
+document.addEventListener("click", event => {
+  const addButton = event.target.closest("[data-add]");
+  const buyButton = event.target.closest("[data-buy]");
 
-$("#checkoutModal").addEventListener("click", event => {
-  if (event.target === $("#checkoutModal")) closeCheckout();
+  if (addButton) {
+    addToCart(addButton.dataset.add);
+  }
+
+  if (buyButton) {
+    goToOrder(buyButton.dataset.buy);
+  }
 });
 
-$("#checkoutForm").addEventListener("submit", event => {
+/* WHATSAPP ORDER SUBMISSION */
+
+$("#orderForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  const form = event.currentTarget;
+
+  if (!form.reportValidity()) return;
+
+  const lines = getCartLines();
+
+  if (!lines.length) {
+    showToast("Please add at least one product before ordering.");
+    return;
+  }
+
+  const data = new FormData(form);
+  const phone = String(data.get("customerPhone")).trim();
+
+  if (!/^[0-9+\s()-]{7,25}$/.test(phone)) {
+    showToast("Please enter a valid phone number.");
+    return;
+  }
+
+  const subtotal = lines.reduce(
+    (sum, item) => sum + item.lineTotal, 0
+  );
+
+  const items = lines.map(item =>
+    `• ${item.name} (${item.fabric})\n  ${item.quantity} × ${money(item.price)} = ${money(item.lineTotal)}`
+  );
+
+  const message = [
+    "NEW CUSTOMER ORDER INQUIRY",
+    "Luxury Fashion Store",
+    "",
+    ...items,
+    "",
+    `Cart subtotal: ${money(subtotal)}`,
+    "Delivery charges: To be confirmed",
+    "",
+    `Customer: ${data.get("customerName")}`,
+    `Phone: ${phone}`,
+    `City: ${data.get("customerCity")}`,
+    `Address: ${data.get("customerAddress")}`,
+    `Payment preference: ${data.get("paymentMethod")}`,
+    `Additional notes: ${data.get("orderNotes") || "None"}`,
+    "",
+    "Please confirm stock, fabric details, final price and delivery."
+  ].join("\n");
+
+  const url =
+    `https://wa.me/${STORE.whatsapp}?text=${encodeURIComponent(message)}`;
+
+  const newWindow = window.open(url, "_blank");
+
+  if (!newWindow) {
+    window.location.href = url;
+  }
+
+  showToast("Order message prepared. Send it in WhatsApp to submit your inquiry.");
+});
+
+/* EMAIL CONTACT */
+
+$("#emailLink").href =
+  `mailto:${STORE.email}?subject=${encodeURIComponent("Luxury Fashion Store Product Inquiry")}`;
+
+$("#whatsappLink").href =
+  `https://wa.me/${STORE.whatsapp}?text=${encodeURIComponent("Hello! I would like to enquire about your unstitched fabric collections.")}`;
+
+/* CUSTOMER REVIEWS */
+
+function renderReviews() {
+  const validReviews = reviews.filter(review =>
+    review &&
+    typeof review.name === "string" &&
+    typeof review.text === "string" &&
+    Number.isInteger(Number(review.rating)) &&
+    Number(review.rating) >= 1 &&
+    Number(review.rating) <= 5
+  );
+
+  const average = validReviews.length
+    ? validReviews.reduce(
+        (sum, review) => sum + Number(review.rating), 0
+      ) / validReviews.length
+    : 0;
+
+  $("#averageRating").textContent =
+    validReviews.length ? average.toFixed(1) : "—";
+
+  $("#reviewCount").textContent = validReviews.length
+    ? `${validReviews.length} review(s) submitted in this browser`
+    : "No customer reviews submitted yet";
+
+  if (!validReviews.length) {
+    $("#reviewGrid").innerHTML = `
+      <article class="review-card">
+        <div class="review-stars">☆☆☆☆☆</div>
+        <h3>Your feedback matters</h3>
+        <p>
+          Be among the first customers to share an honest review of your
+          experience with our fabric selection and service.
+        </p>
+        <span class="review-label">No published customer reviews yet</span>
+      </article>
+    `;
+    return;
+  }
+
+  $("#reviewGrid").innerHTML = validReviews.map(review => `
+    <article class="review-card">
+      <div class="review-stars" aria-label="${Number(review.rating)} out of 5 stars">
+        ${"★".repeat(Number(review.rating))}${"☆".repeat(5 - Number(review.rating))}
+      </div>
+      <h3>Customer Experience</h3>
+      <p>${escapeHTML(review.text)}</p>
+      <div class="review-author">${escapeHTML(review.name)}</div>
+      <span class="review-label">
+        Browser-submitted review · Not independently verified
+      </span>
+    </article>
+  `).join("");
+}
+
+$("#writeReview").addEventListener("click", () => {
+  const form = $("#reviewForm");
+  form.hidden = !form.hidden;
+
+  if (!form.hidden) {
+    form.scrollIntoView({ behavior: "smooth", block: "center" });
+    form.querySelector('[name="reviewName"]').focus();
+  }
+});
+
+$("#reviewForm").addEventListener("submit", event => {
   event.preventDefault();
 
   const form = event.currentTarget;
@@ -678,45 +572,73 @@ $("#checkoutForm").addEventListener("submit", event => {
   if (!form.reportValidity()) return;
 
   const data = new FormData(form);
-  const { lines, subtotal } = getCartDetails();
 
-  if (!lines.length) {
-    showToast("Your shopping bag is empty.");
-    closeCheckout();
+  const review = {
+    id: Date.now(),
+    name: String(data.get("reviewName")).trim(),
+    rating: Number(data.get("reviewRating")),
+    text: String(data.get("reviewText")).trim(),
+    date: new Date().toISOString()
+  };
+
+  if (
+    review.name.length < 2 ||
+    review.text.length < 10 ||
+    !Number.isInteger(review.rating) ||
+    review.rating < 1 ||
+    review.rating > 5
+  ) {
+    showToast("Please check your review details.");
     return;
   }
 
-  const phone = String(data.get("customerPhone")).trim();
+  reviews.unshift(review);
 
-  if (!/^[0-9+\s()-]{7,20}$/.test(phone)) {
-    showToast("Please enter a valid phone number.");
+  if (!saveData("luxury_store_reviews", reviews)) {
+    reviews.shift();
     return;
   }
 
-  const orderLines = lines.map(item =>
-    `• ${item.name} (${item.fabric})\n  Qty: ${item.quantity} × ${money(item.price)} = ${money(item.lineTotal)}`
+  form.reset();
+  form.hidden = true;
+  renderReviews();
+
+  showToast("Your review has been saved in this browser.");
+});
+
+/* MOBILE NAVIGATION */
+
+$("#menuToggle").addEventListener("click", () => {
+  const nav = $("#mainNav");
+  const isOpen = nav.classList.toggle("nav-open");
+
+  $("#menuToggle").setAttribute("aria-expanded", String(isOpen));
+  $("#menuToggle").setAttribute(
+    "aria-label",
+    isOpen ? "Close navigation menu" : "Open navigation menu"
   );
 
-  const message = [
-    "NEW ORDER INQUIRY",
-    "Luxury Fashion Store — Uswa Collections",
-    "",
-    ...orderLines,
-    "",
-    `Product subtotal: ${money(subtotal)}`,
-    "Delivery: Please confirm charges",
-    "",
-    `Customer: ${data.get("customerName")}`,
-    `Phone: ${phone}`,
-    `City: ${data.get("customerCity")}`,
-    `Address: ${data.get("customerAddress")}`,
-    `Payment preference: ${data.get("paymentMethod")}`,
-    `Notes: ${data.get("orderNotes") || "None"}`,
-    "",
-    "Please confirm product availability, final total and delivery details."
-  ].join("\n");
+  $("#menuToggle").textContent = isOpen ? "✕" : "☰";
+});
 
-  const whatsappURL =
-    `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+$("#mainNav").querySelectorAll("a").forEach(link => {
+  link.addEventListener("click", () => {
+    $("#mainNav").classList.remove("nav-open");
+    $("#menuToggle").textContent = "☰";
+    $("#menuToggle").setAttribute("aria-expanded", "false");
+    $("#menuToggle").setAttribute("aria-label", "Open navigation menu");
+  });
+});
 
-  // Open the WhatsApp order draft; this does not
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") closeCart();
+});
+
+/* INITIALIZE */
+
+$("#year").textContent = new Date().getFullYear();
+
+renderProducts();
+renderCart();
+renderReviews();
+     
